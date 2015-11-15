@@ -46,6 +46,11 @@ To setup protractor e2e tests, you must first run
 
 Use `grunt test:e2e` to have protractor go through tests located in the `e2e` folder.
 
+## TODO
+
+* Add more unit tests
+* Add more e2e tests
+* Stylize UI for all pages
 
 [1]: http://www.qualium-systems.com/
 [2]: http://yeoman.io/

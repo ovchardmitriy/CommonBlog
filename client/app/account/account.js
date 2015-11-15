@@ -1,19 +1,25 @@
-'use strict';
-
-angular.module('commonBlogApp')
-  .config(function ($routeProvider) {
+(function() {
+  'use strict';
+  
+  /**
+  * The routes for user registration and authentification
+  */
+  angular
+    .module('commonBlogApp')
+    .config(config);
+  
+  config.$inject = ['$routeProvider'];
+  
+  function config($routeProvider) {
     $routeProvider
-      .when('/login', {
+        .when('/login', {
         templateUrl: 'app/account/login/login.html',
         controller: 'LoginCtrl'
       })
       .when('/signup', {
         templateUrl: 'app/account/signup/signup.html',
         controller: 'SignupCtrl'
-      })
-      .when('/settings', {
-        templateUrl: 'app/account/settings/settings.html',
-        controller: 'SettingsCtrl',
-        authenticate: true
       });
-  });
+  }
+  
+})();

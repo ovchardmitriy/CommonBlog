@@ -1,15 +1,23 @@
+(function() {
 'use strict';
 
-angular.module('commonBlogApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location) {
-    $scope.user = {};
-    $scope.errors = {};
+angular
+  .module('commonBlogApp')
+  .controller('LoginCtrl', LoginCtrl);
+  
+LoginCtrl.$inject = ['$scope', '$location', 'Auth'];
 
-    $scope.login = function(form) {
-      $scope.submitted = true;
+function LoginCtrl($scope, $location, Auth) {
+  $scope.user = {};
+  $scope.errors = {};
+  $scope.login = login;
 
-      if(form.$valid) {
-        Auth.login({
+  function login(form) {
+    $scope.submitted = true;
+    
+    if(form.$valid) {
+      Auth
+        .login({
           email: $scope.user.email,
           password: $scope.user.password
         })
@@ -20,7 +28,8 @@ angular.module('commonBlogApp')
         .catch( function(err) {
           $scope.errors.other = err.message;
         });
-      }
-    };
-
-  });
+    }
+  };
+}
+  
+})();

@@ -1,34 +1,43 @@
-'use strict';
-
-angular.module('commonBlogApp')
-  .controller('SignupCtrl', function ($scope, Auth, $location) {
+(function() {
+  'use strict';
+  
+  angular
+    .module('commonBlogApp')
+    .controller('SignupCtrl', SignupCtrl);
+    
+  SignupCtrl.$inject = ['$scope', '$location', 'Auth'];
+    
+  function SignupCtrl($scope, $location, Auth) {
     $scope.user = {};
     $scope.errors = {};
-
-    $scope.register = function(form) {
+    $scope.register = register;
+  
+    function register(form) {
       $scope.submitted = true;
-
+  
       if(form.$valid) {
-        Auth.createUser({
-          name: $scope.user.name,
-          email: $scope.user.email,
-          password: $scope.user.password
-        })
-        .then( function() {
-          // Account created, redirect to home
-          $location.path('/');
-        })
-        .catch( function(err) {
-          err = err.data;
-          $scope.errors = {};
-
-          // Update validity of form fields that match the mongoose errors
-          angular.forEach(err.errors, function(error, field) {
-            form[field].$setValidity('mongoose', false);
-            $scope.errors[field] = error.message;
+        Auth
+          .createUser({
+            name: $scope.user.name,
+            email: $scope.user.email,
+            password: $scope.user.password
+          })
+          .then( function() {
+            // Account created, redirect to home
+            $location.path('/');
+          })
+          .catch( function(err) {
+            err = err.data;
+            $scope.errors = {};
+            
+            // Update validity of form fields that match the mongoose errors
+            angular.forEach(err.errors, function(error, field) {
+              form[field].$setValidity('mongoose', false);
+              $scope.errors[field] = error.message;
+            });
           });
-        });
       }
-    };
-
-  });
+    }
+  }
+  
+})();
