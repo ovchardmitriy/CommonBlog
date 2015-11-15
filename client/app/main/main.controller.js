@@ -1,32 +1,41 @@
-'use strict';
-
-angular.module('commonBlogApp')
-  .controller('MainCtrl', function ($scope, Auth, Post) {    
+(function() {
+  'use strict';
+  
+  angular
+    .module('commonBlogApp')
+    .controller('MainCtrl', MainCtrl);
+  
+  MainCtrl.$inject = ['$scope', 'Auth', 'Post'];  
+  
+  function MainCtrl($scope, Auth, Post) {    
     $scope.isLoggedInResolved = false;
     $scope.isLoggedIn = false;  
     $scope.posts = [];
-  
-    /**
-     * Delete post
-     */
-    $scope.deletePost = function(post) {
-      post.$delete(function() {
-        populatePosts();
-      });
-    };
-  
+    $scope.deletePost = deletePost;
+    
     /**
      * Populates posts when 'isLoggedIn' change
      */
     $scope.$watch('isLoggedIn', function() {            
       populatePosts();
     });
-  
+    
     /**
      * Async set flags of the user's authentication
      */
-    Auth.isLoggedInAsync(setIsLoggedIn);     
-  
+    Auth.isLoggedInAsync(setIsLoggedIn); 
+    
+    /**
+     * Delete post
+     * 
+     * @param  {Post}  post
+     */
+    function deletePost(post) {
+      post.$delete(function() {
+        populatePosts();
+      });
+    };
+    
     /**
      * Set flags of the user's authentication
      *
@@ -36,7 +45,7 @@ angular.module('commonBlogApp')
       $scope.isLoggedInResolved = true;
       $scope.isLoggedIn = isLoggedIn;
     }
-  
+    
     /**
      * Populate $scope.posts if user is logged in
      */
@@ -47,4 +56,6 @@ angular.module('commonBlogApp')
         $scope.posts = [];
       }
     }
-  });
+  }
+  
+})();

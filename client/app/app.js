@@ -1,22 +1,31 @@
-'use strict';
+(function() {  
+  'use strict';
 
-angular
-  .module('commonBlogApp', [
-    'ngCookies',
-    'ngResource',
-    'ngSanitize',
-    'ngRoute'
-  ])
-  .config(function ($routeProvider, $locationProvider, $httpProvider) {
-    $routeProvider
-      .otherwise({
-        redirectTo: '/'
-      });
-
+  angular
+    .module('commonBlogApp', [
+      'ngCookies',
+      'ngResource',
+      'ngSanitize',
+      'ngRoute'
+    ])
+    .config(config)
+    .factory('authInterceptor', authInterceptor)
+    .run(run);
+  
+  config.$inject = ['$routeProvider', '$locationProvider', '$httpProvider'];
+  
+  function config($routeProvider, $locationProvider, $httpProvider) {
+    $routeProvider.otherwise({
+      redirectTo: '/'
+    });
+  
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
-  })
-  .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
+  }
+    
+  authInterceptor.$inject = ['$rootScope', '$q', '$cookieStore', '$location'];
+  
+  function authInterceptor($rootScope, $q, $cookieStore, $location) {
     return {
       // Add authorization token to headers
       request: function (config) {
@@ -26,7 +35,7 @@ angular
         }
         return config;
       },
-
+  
       // Intercept 401s and redirect you to login
       responseError: function(response) {
         if(response.status === 401) {
@@ -40,11 +49,13 @@ angular
         }
       }
     };
-  })
-
-  .run(function ($rootScope, $location, Auth) {
+  }
+  
+  run.$inject = ['$rootScope', '$location', 'Auth'];
+  
+  function run($rootScope, $location, Auth) {
     // Redirect to login if route requires auth and you're not logged in
-    $rootScope.$on('$routeChangeStart', function (event, next) {
+    $rootScope.$on('$routeChangeStart', function(event, next) {
       Auth.isLoggedInAsync(function(loggedIn) {
         if (next.authenticate && !loggedIn) {
           event.preventDefault();
@@ -52,4 +63,6 @@ angular
         }
       });
     });
-  });
+  }
+  
+})();

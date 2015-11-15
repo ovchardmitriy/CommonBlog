@@ -1,10 +1,14 @@
-'use strict';
-
-/**
- * Removes server error when user updates input
- */
-angular.module('commonBlogApp')
-  .directive('mongooseError', function () {
+(function() {
+  'use strict';
+  
+  /**
+  * Removes server error when user updates input
+  */
+  angular
+    .module('commonBlogApp')
+    .directive('mongooseError', mongooseError);
+  
+  function mongooseError() {
     return {
       restrict: 'A',
       require: 'ngModel',
@@ -14,4 +18,6 @@ angular.module('commonBlogApp')
         });
       }
     };
-  });
+  }
+  
+})();
