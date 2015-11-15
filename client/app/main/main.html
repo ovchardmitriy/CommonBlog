@@ -4,30 +4,32 @@
   <div class="container">
 
     <h1>SPA Common Blog</h1>
-    <p>Create new posts, read and edit all existing posts!</p>
-    <p>This is a test task for QualiumSystems</p>
-
+    <h2>Create new posts, read and edit all existing posts!</h2>
+    <h2>This is a test task for QualiumSystems</h2>
   </div>
 </header>
 
 <div class="container">
-  <div class="row">
 
-    <div class="col-md-12" ng-if="isLoggedInResolved && isLoggedIn">
-      <div class="col-md-12">
-        <a class="btn btn-primary btn-lg" ng-href="/post">
-          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new post
-        </a>
-      </div>
+  <div class="row btn-add-container" ng-if="isLoggedInResolved && isLoggedIn">
+    <div class="col-md-12">
+      <a class="btn btn-primary btn-lg" ng-href="/post">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new post
+      </a>
+    </div> 
+  </div>  
 
-      <div class="col-md-12" ng-repeat="post in posts | orderBy:'-_id'">
-        <h3>{{post.title}}  <small>{{post.createdAt | date:'MMM d, y h:mm:ss a'}}</small></h3>
-        <p>{{post.content}}</p>
-        <a class="btn btn-primary" ng-href="/post?id={{post._id}}">Edit</a>
-        <a class="btn btn-danger" ng-click="deletePost(post)">Delete</a>
-      </div>
+  <div class="row post-container" ng-if="isLoggedInResolved && isLoggedIn">    
+    <div class="col-md-12" ng-repeat="post in posts | orderBy:'-_id'">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h3 class="post-title">{{post.title}}  <small>{{post.createdAt | date:'MMM d, y h:mm:ss a'}}</small></h3>
+          <p>{{post.content}}</p>
+          <a class="btn btn-primary" ng-href="/post?id={{post._id}}">Edit</a>
+          <a class="btn btn-danger" ng-click="deletePost(post)">Delete</a>
+        </div>
+      </div>      
     </div>
-
   </div>
 
   <div class="col-md-12 unauth-message" ng-if="isLoggedInResolved && !isLoggedIn">
