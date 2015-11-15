@@ -2,24 +2,37 @@
 
 <header class="jumbotron">
   <div class="container">
-    
+
     <h1>SPA Common Blog</h1>
     <p>Create new posts, read and edit all existing posts!</p>
     <p>This is a test task for QualiumSystems</p>
-    
+
   </div>
 </header>
 
 <div class="container">
   <div class="row">
-    
+
     <div class="col-md-12" ng-if="isLoggedInResolved && isLoggedIn">
-      <p>A user is logged in</p>
+      <div class="col-md-12">
+        <a class="btn btn-primary btn-lg" ng-href="/post">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new post
+        </a>
+      </div>
+
+      <div class="col-md-12" ng-repeat="post in posts | orderBy:'-_id'">
+        <h3>{{post.title}}  <small>{{post.createdAt | date:'MMM d, y h:mm:ss a'}}</small></h3>
+        <p>{{post.content}}</p>
+        <a class="btn btn-primary" ng-href="/post?id={{post._id}}">Edit</a>
+        <a class="btn btn-danger" ng-click="deletePost(post)">Delete</a>
+      </div>
     </div>
-    
-    <div class="col-md-12" ng-if="isLoggedInResolved && !isLoggedIn">
-      <p>A user is not logged in</p>
-    </div>
-    
+
   </div>
+
+  <div class="col-md-12" ng-if="isLoggedInResolved && !isLoggedIn">
+    <p class="lead">Please <a class="btn btn-link btn-lg" href="/login">login</a> to gain access to posts</p>
+  </div>
+
+</div>
 </div>
