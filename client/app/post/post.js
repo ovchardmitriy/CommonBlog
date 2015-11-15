@@ -27,6 +27,8 @@
   /**
    * Retrieve editable object from server or create new one
    */
+  getEditablePost.$inject = ['Post', '$q', '$location'];
+  
   function getEditablePost(Post, $q, $location) {
     var deferred = $q.defer();
     
