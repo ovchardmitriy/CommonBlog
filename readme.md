@@ -48,6 +48,7 @@ Use `grunt test:e2e` to have protractor go through tests located in the `e2e` fo
 
 ## TODO
 
+* Add confirm before post deleting
 * Add more unit tests
 * Add more e2e tests
 * Stylize UI for all pages
